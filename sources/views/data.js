@@ -11,8 +11,8 @@ export default class DataView extends JetView{
 					select: true,
 					width: 250,
 					on: {
-						onAfterSelect: function (id) {
-							$$(id).show();
+						onAfterSelect: (id) => {
+							this.$$(id).show();
 						}
 					},
 					data: ["Countries", "Statuses"]
@@ -20,44 +20,103 @@ export default class DataView extends JetView{
 				{
 					cells: [
 						{
-							view: "datatable",
-							id: "Countries",
-							select: true,
-							editable: true,
-							editaction: "dblclick",
-							autoConfig: true,
-							columns: [
+							rows: [
 								{
-									id: "Name",
-									header: "Full Name",
-									fillspace: 1,
-									editor:"text",
-									template: "<span>#Name#</span>  <span class='removeBtn'>{common.trashIcon()}</span>",
-								}
+									cols: [
+										{
+											view: "button",
+											value: "Add new",
+											type: "form",
+											width: 100,
+											click() {
+												let data = {
+													"Name": "type new name"
+												};
+												$$("Countries").add(data);
+											}
+										},
+										{}
+									]
+								},
+								{
+									view: "datatable",
+									id: "Countries",
+									select: true,
+									editable: true,
+									editaction: "dblclick",
+									autoConfig: true,
+									columns: [
+										{
+											id: "Name",
+											header: "Full Name",
+											fillspace: 1,
+											editor:"text"
+										},
+										{
+											template: "<span class='removeBtn'>{common.trashIcon()}</span>",
+										}
+									],
+									onClick: {
+										removeBtn: function (e, id) {
+											this.remove(id);
+											return false;
+										}
+									}
+								},
 							]
 						},
 						{
-							view: "datatable",
-							id: "Statuses",
-							select: true,
-							editable: true,
-							editaction: "dblclick",
-							autoConfig: true,
-							columns: [
+							rows: [
 								{
-									id: "Name",
-									header: "Name",
-									fillspace: 1,
-									editor:"text"
+									cols: [
+										{
+											view: "button",
+											value: "Add new",
+											type: "form",
+											width: 100,
+											click() {
+												let data = {
+													"Name": "type new name"
+												};
+												$$("Statuses").add(data);
+											}
+										},
+										{}
+									]
 								},
 								{
-									id: "Icon",
-									header: "Icon",
-									fillspace: 1,
-									editor:"text",
-									template: "<span>#Icon#</span>  <span class='removeBtn'>{common.trashIcon()}</span>",
-								},
+									view: "datatable",
+									id: "Statuses",
+									select: true,
+									editable: true,
+									editaction: "dblclick",
+									autoConfig: true,
+									columns: [
+										{
+											id: "Name",
+											header: "Name",
+											fillspace: 1,
+											editor: "text"
+										},
+										{
+											id: "Icon",
+											header: "Icon",
+											fillspace: 1,
+											editor: "text"
+										},
+										{
+											template: "<span class='removeBtn'>{common.trashIcon()}</span>",
+										}
+									],
+									onClick: {
+										removeBtn: function (e, id) {
+											this.remove(id);
+											return false;
+										}
+									}
+								}
 							]
+
 						}
 					]
 				}
@@ -68,5 +127,4 @@ export default class DataView extends JetView{
 		this.$$("Countries").parse(countries);
 		this.$$("Statuses").parse(statuses);
 	}
-	
 }
