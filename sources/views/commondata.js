@@ -2,7 +2,7 @@ import {JetView} from "webix-jet";
 
 export default class CommonData extends JetView{
 	constructor(app,name,data){
-		super(app,name);
+		super(app, name);
 		this._tdata = data;
 	}
 	config() {
@@ -15,11 +15,7 @@ export default class CommonData extends JetView{
 					cols: [
 						{
 							view: "button", type: "form", value: "Add", click: () => {
-								let newData = {
-									"Name": "",
-									"Icon": ""
-								};
-								this._tdata.add(newData);
+								this._tdata.add({"Name":""});
 							}
 						},
 						{
@@ -34,6 +30,6 @@ export default class CommonData extends JetView{
 		}
 	}
 	init(view){
-		view.queryView("datatable").parse(this._tdata);
+		view.queryView("datatable").sync(this._tdata);		
 	}
 }

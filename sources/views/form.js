@@ -32,11 +32,12 @@ export default class FormView extends JetView {
         })
     }
     urlChange(view){
-        const id = this.getParam("id");
-        
-        if (id){
-            view.setValues(contacts.getItem(id))
-        }
+        contacts.waitData.then(() => {
+            const id = this.getParam("id");
+            if (id) {
+                view.setValues(contacts.getItem(id))
+            }
+        })
     }
 }
 

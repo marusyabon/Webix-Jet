@@ -23,8 +23,12 @@ export default class DataView extends JetView{
 
 		let data = {
 			cells: [
-				{ id: "data:countries", $subview: new CommonData(this.app, "", countries) },
-				{ id: "data:statuses", $subview: new CommonData(this.app, "", statuses) }
+				{
+					id: "data:countries", $subview: new CommonData(this.app, "", countries)
+				},
+				{
+					id: "data:statuses", $subview: new CommonData(this.app, "", statuses)
+				}
 			]
 		}
 

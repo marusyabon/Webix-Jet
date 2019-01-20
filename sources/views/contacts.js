@@ -64,9 +64,11 @@ export default class ContactsVeiw extends JetView {
   }
 
   urlChange(view) {
-    var id = this.getParam("id") || contacts.getFirstId();
-    if(id) {
-      view.queryView("list").select(id);
-    }
+    contacts.waitData.then(() => {
+      var id = this.getParam("id") || contacts.getFirstId();
+      if (id) {
+        view.queryView("list").select(id);
+      }
+    })
   }
 }
