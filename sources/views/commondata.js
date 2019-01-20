@@ -5,19 +5,31 @@ export default class CommonData extends JetView{
 		super(app,name);
 		this._tdata = data;
 	}
-	config(){
+	config() {
 		return {
-			rows:[
-				{ view:"datatable", editable: true, autoConfig:true },
-				{ view: "button", type: "form", value: "Add", click:() => {
-					// const form = this.getRoot().queryView("form");
-					// cnst grid = this.getRoot().queryView("datatable");
-					let data = {
-            "Name": "type new name",
-            "Icon": ""
-          };
-          this.getRoot().queryView("datatable").add(data);
-				}}
+			rows: [
+				{
+					view: "datatable", editable: true, autoConfig: true, editaction:"dblclick",
+				}, 
+				{
+					cols: [
+						{
+							view: "button", type: "form", value: "Add", click: () => {
+								let newData = {
+									"Name": "",
+									"Icon": ""
+								};
+								this._tdata.add(newData);
+							}
+						},
+						{
+							view: "button", type: "form", value: "Remove", click: () => {
+								let item = this.getRoot().queryView({view:"datatable"}).getSelectedId()
+								this._tdata.remove(item);
+							}
+						}
+					]
+				}
 			]
 		}
 	}

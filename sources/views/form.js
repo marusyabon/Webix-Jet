@@ -18,13 +18,19 @@ export default class FormView extends JetView {
                     view: "button", value: "Save",
                     click: () => {
                         const values = this.getRoot().getValues();
-	                    this.app.callEvent("onDataEditStop", [values]);
+                        if(values.id) {
+                            contacts.updateItem(values.id, values);
+                        }
                     }
                 },
             ]
         }
     }
-
+    init() {
+        this.on(contacts, "onAfterDelete", () => {
+            this.$$("userForm").clear();
+        })
+    }
     urlChange(view){
         const id = this.getParam("id");
         

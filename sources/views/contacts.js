@@ -26,7 +26,7 @@ export default class ContactsVeiw extends JetView {
           },
           on: {
 						"onAfterSelect": (id) => {
-							this.show("contacts?id="+id)
+              this.setParam("id", id, true);
 						}
 					},
         },
@@ -35,7 +35,10 @@ export default class ContactsVeiw extends JetView {
           type: "form",
           value: "Add",
           click: () => {
-            contacts.add({id: webix.uid(), "Name": "Type name", "Email": "example@gmail.com", "Status": 1, "Country": 1 });
+            contacts.add({
+               "Name": "",  
+               "Email": "", 
+            });
           }
         },
         {
@@ -53,17 +56,17 @@ export default class ContactsVeiw extends JetView {
     };
   }
   init() {
-    this.on(this.app, "onDataEditStop", (data) => {
-      if (data) {
-        contacts.updateItem(data.id, data)
-      }
-    });
-
     this.$$("list").sync(contacts);
+    this.on(contacts, "onAfterDelete", () => {
+      let id = contacts.getFirstId();
+      id ? this.setParam("id", id, true) : this.app.show("/top/contacts");
+    })
   }
 
   urlChange(view) {
     var id = this.getParam("id") || contacts.getFirstId();
-    view.queryView("list").select(id);
+    if(id) {
+      view.queryView("list").select(id);
+    }
   }
 }
