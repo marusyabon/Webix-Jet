@@ -27,7 +27,7 @@ export default class FormView extends JetView {
         }
     }
     init() {
-        this.on(contacts, "onAfterDelete", () => {
+        this.on(this.app, "onContactDelete", () => {
             this.$$("userForm").clear();
         })
     }

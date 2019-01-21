@@ -21,6 +21,11 @@ export default class ContactsVeiw extends JetView {
           },
           onClick: {
             "remove_contact": function (e, id) {
+              if(this.getSelectedId() == id) {
+                let id = contacts.getFirstId();
+                id ? this.select(id) : this.$scope.app.show("/top/contacts");
+                this.$scope.app.callEvent("onContactDelete");
+              }
               contacts.remove(id);
             }
           },
@@ -57,16 +62,12 @@ export default class ContactsVeiw extends JetView {
   }
   init() {
     this.$$("list").sync(contacts);
-    this.on(contacts, "onAfterDelete", () => {
-      let id = contacts.getFirstId();
-      id ? this.setParam("id", id, true) : this.app.show("/top/contacts");
-    })
   }
 
   urlChange(view) {
     contacts.waitData.then(() => {
       var id = this.getParam("id") || contacts.getFirstId();
-      if (id) {
+      if (id && contacts.exists()) {
         view.queryView("list").select(id);
       }
     })
